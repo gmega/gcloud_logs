@@ -9,7 +9,7 @@ Example
 Tails logs from two GCE instances named "machine1" and "machine2":
 
 ```shell
-gcloud_logs machine1 machine2 --tail 
+gcloud-logs machine1 machine2 --tail 
 ```
 
 Installing
