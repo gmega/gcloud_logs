@@ -26,7 +26,8 @@ POLL_INTERVAL = 1
 PAGE_SIZE = 100
 
 
-def main(args):
+def main():
+    args = parse_opts()
     formatter = api_format if args.api else line_format
     from_date = adjust_tz(args.from_date, args.utc)
     to_date = adjust_tz(args.to_date, args.utc)
@@ -75,9 +76,16 @@ def line_format(response):
     json = response.to_api_repr()
     machine = json['resource']['labels']['instance_id']
 
-    return Fore.LIGHTGREEN_EX + machine + Fore.LIGHTCYAN_EX + \
-           f' [{json["timestamp"]}] ' + Style.BRIGHT + f"({json['severity']}): " + \
-           Style.RESET_ALL + f"{json['textPayload']}"
+    output = [Fore.LIGHTGREEN_EX + machine + Fore.LIGHTCYAN_EX + f' [{json["timestamp"]}]']
+    if 'severity' in json:
+        output.append(Style.BRIGHT + f"({json['severity']}):")
+
+    if 'textPayload' in json:
+        output.append(Style.RESET_ALL + f"{json['textPayload']}")
+    else:
+        output.append(Style.DIM + '<<empty payload>>' + Style.RESET_ALL)
+
+    return ' '.join(output)
 
 
 def make_filter(machines, from_date, to_date=None):
@@ -132,4 +140,4 @@ def parse_opts():
 
 
 if __name__ == '__main__':
-    main(parse_opts())
+    main()
