@@ -8,6 +8,7 @@ setup(
     author_email='giuliano@playax.com',
     install_requires=[
         'colorama >= 0.4.4',
+        'dateutils >= 0.6.12',
         'google-cloud-core >= 1.6.0',
         'google-cloud-logging >= 2.2.0'
     ],
